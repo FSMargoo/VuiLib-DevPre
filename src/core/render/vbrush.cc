@@ -35,7 +35,9 @@ ID2D1SolidColorBrush* VSolidBrush::GetDxBrush() {
 }
 
 VSolidBrush::VSolidBrush(ID2D1RenderTarget* Target, const VColor& Color) {
-	Target->CreateSolidColorBrush(Color.GetDxObject(), &Brush);
+    HRESULT Result = Target->CreateSolidColorBrush(Color.GetDxObject(), &Brush);
+
+    VLIB_CHECK_REPORT(Result != S_OK, L"DirectX Created Brush Failed!");
 }
 VSolidBrush::~VSolidBrush() {
 	VDXObjectSafeFree(&Brush);

@@ -19,7 +19,7 @@ struct VWin32StatusCache {
     bool UserSetGeomtery = false;
 };
 
-class VMainWindow : VUIObject {
+class VMainWindow : public VUIObject {
  private:
      std::vector<VRepaintMessage*> RepaintMessages;
      VPainter*                     BufferPainter;

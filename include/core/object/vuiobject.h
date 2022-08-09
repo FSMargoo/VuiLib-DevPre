@@ -32,7 +32,7 @@ enum VUIObjectUIStats {
 
 struct VUIObjectSurface {
     VRect Rectangle;
-    float Transparency = 255;
+    float Transparency = 1.f;
     VUIObjectUIStats Stats = VUIObjectUIStats::Normal;
 };
 

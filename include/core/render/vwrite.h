@@ -66,12 +66,13 @@ class VFont {
 	 ~VFont();
 
  public:
-	 void SetLineAlignment(VFontAlignment Alignment) {
-		 TextFormat->SetTextAlignment(Alignment);
-	 }
-	 void SetParagraphAlignment(VFontParagraphAlilgnment Alignment) {
-		 TextFormat->SetParagraphAlignment(Alignment);
-	 }
+	 void SetLineAlignment(VFontAlignment Alignment);
+	 void SetParagraphAlignment(VFontParagraphAlilgnment Alignment);
+
+     std::wstring GetFamilyName() const;
+     FontWeight   GetTextWeightStyle();
+     FontStyle    GetTextFontStyle();
+     FontStretch  GetFontStretchStyle();
 };
 }
 

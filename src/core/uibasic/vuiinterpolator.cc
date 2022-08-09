@@ -130,6 +130,14 @@ void VColorInterpolator::Start(const VColor& Target, const VColor& Source) {
 	TargetColor = Target;
 	SourceColor = Source;
 }
+VColor VColorInterpolator::GetTheColorByPercent(const VColor& SourceColor, const VColor& TargetColor, const double& Percent) {
+    float ResultR = TargetColor.GetR() + (SourceColor.GetR() - TargetColor.GetR()) * (1.f - Percent);
+    float ResultG = TargetColor.GetG() + (SourceColor.GetG() - TargetColor.GetG()) * (1.f - Percent);
+    float ResultB = TargetColor.GetB() + (SourceColor.GetB() - TargetColor.GetB()) * (1.f - Percent);
+    float ResultA = TargetColor.GetA() + (SourceColor.GetA() - TargetColor.GetA()) * (1.f - Percent);
+
+    return VColor(ResultR, ResultG, ResultB, ResultA);
+}
 VColor VColorInterpolator::GetFrame() {
 	double DeltaX = GetOneFrame();
 

@@ -13,6 +13,27 @@ VFont::VFont(const std::wstring& FamilyName, FontWeight TextWidget, FontStyle Te
 VFont::~VFont() {
 	VDXObjectSafeFree(&TextFormat);
 }
+void VFont::SetLineAlignment(VFontAlignment Alignment) {
+    TextFormat->SetTextAlignment(Alignment);
+}
+void VFont::SetParagraphAlignment(VFontParagraphAlilgnment Alignment) {
+    TextFormat->SetParagraphAlignment(Alignment);
+}
+std::wstring VFont::GetFamilyName() const {
+    WCHAR FamilyName[LF_FACESIZE];
+    TextFormat->GetFontFamilyName(FamilyName, LF_FACESIZE);
+
+    return FamilyName;
+}
+VFont::FontWeight   VFont::GetTextWeightStyle() {
+    return (FontWeight)TextFormat->GetFontWeight();
+}
+VFont::FontStyle    VFont::GetTextFontStyle() {
+    return (FontStyle)TextFormat->GetFontStyle();
+}
+VFont::FontStretch  VFont::GetFontStretchStyle() {
+    return (FontStretch)TextFormat->GetFontStretch();
+}
 }
 
 VLIB_END_NAMESPACE

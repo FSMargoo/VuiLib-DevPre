@@ -43,7 +43,7 @@ class VCanvasPainter {
 	 void FillEllipse(const VRect& EllipseRectangle, VPenBrush* BorderPen, VSolidBrush* FillBrush);
 	 void FillRoundedRectangle(const VRect& Rectangle, const VPoint& Radius, VPenBrush* BorderPen, VSolidBrush* FillBrush);
 
-	 void DrawString(const std::wstring& String, const VRect& StringRectangle, VFont* TargetFont, VPenBrush* TextBrush);
+	 void DrawString(const std::wstring& String, const VRect& StringRectangle, VFont* TargetFont, VSolidBrush* TextBrush);
 
 	 void DrawImage(const VRect& TargetRectangle, VImage* SourceImage, const VRect& SourceRectangle, const float& ImageOpacity);
      void DrawCanvas(const VRect& TargetRectangle, VCanvasPainter* SourceImage, const VRect& SourceRectangle, const float& ImageOpacity);

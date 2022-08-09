@@ -3,28 +3,54 @@
 // The widget (VMainWindow)
 #pragma once
 
+#include "../uibasic/vtimer.h"
 #include "../object/vuiobject.h"
+#include "vabstractbutton.h"
 
 VLIB_BEGIN_NAMESPACE
 
 namespace Core {
-class VPushButton : public VUIObject {
+class VPushButton : public VAbstractButton {
  private:
-     VPushButtonTheme* Theme{};
- private:
-     VRect GetRegion() override {
-         VRect Rect = VUIObject::GetRegion();
+     VPushButtonTheme*       Theme;
 
-         Rect.Extended(Theme->LocalTheme.BorderThickness, Theme->LocalTheme.BorderThickness,
-                       Theme->LocalTheme.BorderThickness, Theme->LocalTheme.BorderThickness);
-         return Rect;
-     }
+ private:
+     VBasicTimer             AnimationFrameTimer;
+     VAnimationInterpolator* Interpolator;
+
+     VLabelStatusTheme       OldTheme;
+     VLabelStatusTheme       TargetTheme;
+
+     bool                    InAnimation = false;
+
+ private:
+     VRect GetRegion() override;
 
  public:
-     explicit VPushButton(VUIObject* Parent) : VUIObject(Parent) {
+     void LeftClickedDown() override;
+     void LeftClickedUp() override;
+     void GotMouseFocus() override;
+     void LosedMouseFocus() override;
 
-     }
+ public:
+     explicit VPushButton(VUIObject* Parent);
+     VPushButton(const int& Width, const int& Height, VUIObject* Parent);
+     VPushButton(const int& Width, const int& Height, const std::wstring& PlaneText, VUIObject* Parent);
+     ~VPushButton() noexcept;
+
+ public:
+     void SetPlaneText(const std::wstring& PlaneText);
+     const std::wstring& GetPlaneString();
+
+ public:
+     VPushButtonTheme* GetTheme();
+     void SetTheme(VPushButtonTheme* Theme);
+
+ public:
+     void OnPaint(VCanvasPainter* Painter) override;
+     void CheckFrame() override;
 };
+
 }
 
 

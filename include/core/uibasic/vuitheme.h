@@ -12,7 +12,7 @@ VLIB_BEGIN_NAMESPACE
 namespace Core {
 
 enum class VUIThemeType {
-	VUnknown, VMainWindow, VPushButton
+	VUnknown, VMainWindow, VPushButton, VTextLabel, VImageLabel
 };
 
 struct VBasicUITheme {
@@ -48,8 +48,13 @@ struct VLabelStatusTheme {
 
 	float   BorderThickness;
 
+    VPoint  Radius;
+
 	VInterpolatorType
 		AnimationInterpolatorType;
+
+    VLabelStatusTheme() = default;
+    VLabelStatusTheme(const VLabelStatusTheme& Theme);
 };
 
 struct VLabelCommomTheme : public VBasicUITheme {
@@ -58,6 +63,7 @@ struct VLabelCommomTheme : public VBasicUITheme {
 	 VLabelStatusTheme OnHoverTheme;
 	 VLabelStatusTheme ActiveTheme;
 	 VLabelStatusTheme LocalTheme;
+     VFont*            LabelFont;
 
  public:
 	 VLabelCommomTheme(const VLabelCommomTheme& LabelObject);
@@ -66,12 +72,42 @@ struct VLabelCommomTheme : public VBasicUITheme {
 
 struct VPushButtonTheme : public VLabelCommomTheme {
  public:
+     std::wstring PlaneText;
+
+ public:
 	 VPushButtonTheme();
+     VPushButtonTheme(const VPushButtonTheme& Theme);
 
  public:
 	 VUIThemeType GetThemeType() override {
 		 return VUIThemeType::VPushButton;
 	 }
+};
+
+struct VTextLabelTheme : public VLabelCommomTheme {
+ public:
+    std::wstring PlaneText;
+
+ public:
+     VTextLabelTheme();
+     VTextLabelTheme(const VTextLabelTheme& Theme);
+
+ public:
+     VUIThemeType GetThemeType() override {
+        return VUIThemeType::VTextLabel;
+     }
+};
+
+struct VImageLabel : public VBasicUITheme {
+    VImage* Image;
+
+    VImageLabel() {
+
+    }
+
+    VUIThemeType GetThemeType() override {
+        return VUIThemeType::VImageLabel;
+    }
 };
 
 }

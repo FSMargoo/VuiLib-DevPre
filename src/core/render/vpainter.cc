@@ -93,7 +93,7 @@ void VCanvasPainter::FillRoundedRectangle(const VRect& Rectangle, const VPoint& 
 	SolidRoundedRectangle(Rectangle, Radius, FillBrush);
 	DrawRoundedRectangle(Rectangle, Radius, BorderPen);
 }
-void VCanvasPainter::DrawString(const std::wstring& String, const VRect& StringRectangle, VFont* TargetFont, VPenBrush* TextBrush) {
+void VCanvasPainter::DrawString(const std::wstring& String, const VRect& StringRectangle, VFont* TargetFont, VSolidBrush* TextBrush) {
 	D2D1_RECT_F D2DRECT = {
 		static_cast<FLOAT>(StringRectangle.Left),
 		static_cast<FLOAT>(StringRectangle.Top),
@@ -101,7 +101,7 @@ void VCanvasPainter::DrawString(const std::wstring& String, const VRect& StringR
 		static_cast<FLOAT>(StringRectangle.Bottom)
 	};
 
-#ifdef UNICODE || _UNICODE
+#ifdef UNICODE
 	TargetDevice->DrawTextW(String.c_str(), static_cast<UINT32>(String.length()), TargetFont->GetDXObject(), D2DRECT, TextBrush->GetDxBrush());
 #else
     TargetDevice->DrawTextA(String.c_str(), static_cast<UINT32>(String.length()), TargetFont->GetDXObject(), D2DRECT, TextBrush->GetDxBrush());
@@ -221,7 +221,7 @@ void VPainter::DrawString(const std::wstring& String, const VRect& StringRectang
 		static_cast<FLOAT>(StringRectangle.Right),
 		static_cast<FLOAT>(StringRectangle.Bottom)
 	};
-#ifdef UNICODE || _UNICODE
+#ifdef UNICODE
 	TargetDevice->DrawTextW(String.c_str(), static_cast<UINT32>(String.length()), TargetFont->GetDXObject(), D2DRECT, TextBrush->GetDxBrush());
 #else
     TargetDevice->DrawTextA(String.c_str(), static_cast<UINT32>(String.length()), TargetFont->GetDXObject(), D2DRECT, TextBrush->GetDxBrush());

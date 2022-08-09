@@ -113,7 +113,7 @@ int VApplication::Exec() {
 
     while (true) {
         ProcessEvent(PatchedMessage);
-        CheckAllFrame();
+        CheckAllFrame(true);
 
         VTimeHelper::Sleep(1);
     }

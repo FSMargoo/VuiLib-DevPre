@@ -100,11 +100,7 @@ Core::VDCRender* VMainWindow::CallWidgetGetDCRenderTarget() {
 void VMainWindow::OnPaint(VCanvasPainter* Canvas, const VRect& Rect) {
     VSolidBrush BackgroundColor(CallWidgetGetDCRenderTarget()->GetDirectXRenderTarget(), Theme->BackgroundColor);
 
-    Canvas->BeginDraw();
-
     Canvas->SolidRectangle(Rect, &BackgroundColor);
-
-    Canvas->EndDraw();
 }
 
 void VMainWindow::Update(VRect UpdateRect) {
@@ -170,24 +166,25 @@ void VMainWindow::CheckFrame() {
         }
 
         if (!RepaintMessages.empty()) {
-            VCanvasPainter* WidgetPainter = new VCanvasPainter(GetWidth(), GetHeight(),
+            Canvas = new VCanvasPainter(GetWidth(), GetHeight(),
                                                                CallWidgetGetDCRenderTarget()->GetDirectXRenderTarget());
+
+            Canvas->BeginDraw();
             for (auto& Message : RepaintMessages) {
-                OnPaint(WidgetPainter, Message->DirtyRectangle);
+                OnPaint(Canvas, Message->DirtyRectangle);
                 SendMessageToChild(Message, false);
 
                 delete Message;
             }
+            Canvas->EndDraw();
 
             RepaintMessages.clear();
 
             BufferPainter->BeginDraw();
-            BufferPainter->DrawCanvas(GetRegion(), WidgetPainter, GetRegion(), 1.f);
+            BufferPainter->DrawCanvas(GetRegion(), Canvas, GetRegion(), 1.f);
             BufferPainter->EndDraw();
 
-            FlushBatchDraw();
-
-            delete WidgetPainter;
+            delete Canvas;
         }
 
         FlushBatchDraw();

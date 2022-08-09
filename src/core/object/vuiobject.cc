@@ -144,7 +144,6 @@ void VUIObject::CheckAllFrame(bool RecursionChildren) {
         }
     } else {
         for (auto &Object: ObjectKernel.ChildObjectContainer) {
-            Object->CheckFrame();
             Object->CheckAllFrame(RecursionChildren);
         }
     }
@@ -283,11 +282,6 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
         }
 
         if (ObjectVisual.Stats != VUIObjectUIStats::OnFocus) {
-            VCheckFocusMessage *CheckFocus = new VCheckFocusMessage(MousePosition);
-
-            CallWidgetSendMessage(CheckFocus);
-            delete CheckFocus;
-
             ObjectVisual.Stats = VUIObjectUIStats::OnFocus;
 
             Update();
@@ -297,6 +291,11 @@ bool VUIObject::CheckUIFocusStatus(const VPoint &MousePosition, VMessage *Source
             GotMouseFocus();
 
             InFocus.Emit();
+
+            VCheckFocusMessage *CheckFocus = new VCheckFocusMessage(MousePosition);
+
+            CallWidgetSendMessage(CheckFocus);
+            delete CheckFocus;
         }
     } else if (ObjectVisual.Stats == VUIObjectUIStats::OnFocus) {
         ObjectVisual.Stats = VUIObjectUIStats::Normal;
@@ -373,6 +372,9 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message) {
                     Canvas = new VCanvasPainter(GetRegion().GetWidth(),
                                                 GetRegion().GetHeight(),
                                                 CallWidgetGetDCRenderTarget()->GetDirectXRenderTarget());
+                    Canvas->BeginDraw();
+                    Canvas->Clear(VColor(0.f, 0.f, 0.f, 0.f));
+                    Canvas->EndDraw();
 
                     OnPaint(Canvas);
 
@@ -389,7 +391,7 @@ bool VUIObject::SysProcessMessage(Core::VMessage *Message) {
 
                     EditCanvas(Canvas);
 
-                    GetParentCanvas()->DrawCanvas(GetRegion(), Canvas, GetRegion(), ObjectVisual.Transparency);
+                    GetParentCanvas()->DrawCanvas(GetRegion(), Canvas, { 0, 0, GetRegion().GetWidth(), GetRegion().GetHeight() }, ObjectVisual.Transparency);
 
                     delete Canvas;
 
